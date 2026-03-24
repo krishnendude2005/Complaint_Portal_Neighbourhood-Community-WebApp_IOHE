@@ -22,6 +22,8 @@ export default function ComplaintDetail() {
   const [assignTo, setAssignTo] = useState('');
   const [internalNote, setInternalNote] = useState('');
   const [status, setStatus] = useState('');
+  const [resolutionNote, setResolutionNote] = useState('');
+  const [actionPhotos, setActionPhotos] = useState([]);
   const [rating, setRating] = useState(0);
   const [feedback, setFeedback] = useState('');
   const [error, setError] = useState('');
@@ -58,9 +60,10 @@ export default function ComplaintDetail() {
     if (!status) return;
     setError('');
     try {
-      const updated = await complaints.updateStatus(id, status);
+      const updated = await complaints.updateStatus(id, status, '', actionPhotos.length > 0 ? actionPhotos : undefined);
       setComplaint(updated);
       setStatus('');
+      setActionPhotos([]);
     } catch (err) {
       setError(err.message);
     }
@@ -69,8 +72,10 @@ export default function ComplaintDetail() {
   const handleResolve = async () => {
     setError('');
     try {
-      const updated = await complaints.resolve(id);
+      const updated = await complaints.resolve(id, resolutionNote || undefined, actionPhotos.length > 0 ? actionPhotos : undefined);
       setComplaint(updated);
+      setResolutionNote('');
+      setActionPhotos([]);
     } catch (err) {
       setError(err.message);
     }
@@ -121,6 +126,19 @@ export default function ComplaintDetail() {
 
   if (loading) return <p>Loading...</p>;
   if (!complaint) return <p>Complaint not found.</p>;
+
+  const handleActionPhotoChange = async (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length === 0) return;
+    const base64s = await Promise.all(files.map(f => {
+      return new Promise(resolve => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.readAsDataURL(f);
+      });
+    }));
+    setActionPhotos(prev => [...prev, ...base64s]);
+  };
 
   const images = complaint.images ? (typeof complaint.images === 'string' ? JSON.parse(complaint.images) : complaint.images) : [];
 
@@ -247,8 +265,28 @@ export default function ComplaintDetail() {
                 ))}
               </select>
               <button onClick={handleStatusChange} disabled={!status}>Update</button>
+              
               {(complaint.status === 'in_progress' || complaint.status === 'assigned') && (
-                <button className={styles.resolveBtn} onClick={handleResolve}>Mark Resolved</button>
+                <div style={{ marginTop: 16 }}>
+                  <h4>Resolve Issue</h4>
+                  <textarea 
+                    value={resolutionNote} 
+                    onChange={(e) => setResolutionNote(e.target.value)} 
+                    placeholder="Resolution details..." 
+                    rows={2} 
+                    style={{ width: '100%', marginBottom: 8 }}
+                  />
+                  <div style={{ marginBottom: 8 }}>
+                    <label style={{ display: 'block', fontSize: 12, marginBottom: 4 }}>Add Photos</label>
+                    <input type="file" multiple accept="image/*" onChange={handleActionPhotoChange} />
+                    {actionPhotos.length > 0 && (
+                      <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', marginTop: 4 }}>
+                        {actionPhotos.map((img, i) => <img key={i} src={img} alt="" style={{ width: 40, height: 40, objectFit: 'cover' }} />)}
+                      </div>
+                    )}
+                  </div>
+                  <button className={styles.resolveBtn} onClick={handleResolve}>Mark Resolved</button>
+                </div>
               )}
             </section>
           )}

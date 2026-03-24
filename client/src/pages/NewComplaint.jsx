@@ -26,10 +26,24 @@ export default function NewComplaint() {
   const [description, setDescription] = useState('');
   const [location, setLocation] = useState('');
   const [flatNumber, setFlatNumber] = useState(user?.flatNumber || '');
+  const [images, setImages] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const subcategories = category ? (CATEGORIES[category]?.subcategories || []) : [];
+
+  const handleImageChange = async (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length === 0) return;
+    const base64s = await Promise.all(files.map(file => {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.readAsDataURL(file);
+      });
+    }));
+    setImages(prev => [...prev, ...base64s]);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,7 +56,8 @@ export default function NewComplaint() {
         title,
         description,
         location: location || undefined,
-        flatNumber: flatNumber || undefined
+        flatNumber: flatNumber || undefined,
+        images: images.length > 0 ? images : undefined
       });
       navigate(`/complaints/${created.id}`);
     } catch (err) {
@@ -130,6 +145,18 @@ export default function NewComplaint() {
               placeholder="e.g. Kitchen"
             />
           </div>
+        </div>
+
+        <div className={styles.field}>
+          <label>Photos (Optional)</label>
+          <input type="file" multiple accept="image/*" onChange={handleImageChange} />
+          {images.length > 0 && (
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '8px' }}>
+              {images.map((img, i) => (
+                <img key={i} src={img} alt="preview" style={{ width: 60, height: 60, objectFit: 'cover', borderRadius: '4px' }} />
+              ))}
+            </div>
+          )}
         </div>
 
         <div className={styles.actions}>
