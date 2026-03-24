@@ -8,7 +8,12 @@ import userRoutes from './routes/users.js';
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+// Allow web client + React Native (Expo) - mobile apps may have null/undefined origin
+app.use(cors({
+  origin: (o, cb) => cb(null, true),
+  credentials: true,
+  methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
+}));
 app.use(express.json({ limit: '10mb' }));
 
 app.use('/api/auth', authRoutes);
