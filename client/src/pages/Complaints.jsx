@@ -64,7 +64,7 @@ export default function Complaints() {
                 </span>
               </div>
               <h3>{c.title}</h3>
-              <p>{c.flatNumber ? `Flat ${c.flatNumber}` : '-'} · {c.category}</p>
+              <p>{c.flatNumber ? `Flat ${c.flatNumber}` : '-'} {c.location ? `· ${c.location} ` : ''}· {c.category}</p>
               <span className={styles.status}>{STATUS_LABELS[c.status] || c.status}</span>
               {c.assignedStaff && <p className={styles.assigned}>{c.assignedStaff.name}</p>}
             </Link>
