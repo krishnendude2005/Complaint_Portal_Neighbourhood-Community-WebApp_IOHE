@@ -1,19 +1,20 @@
 .container {
-  max-width: 600px;
+  max-width: 700px;
   margin: 0 auto;
   padding: 2rem;
 }
 
 .card {
-  background: white;
-  border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
   padding: 2rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .subtitle {
-  color: #666;
-  margin-bottom: 1.5rem;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+  font-size: 1rem;
 }
 
 .form {
@@ -30,91 +31,116 @@
 
 .formGroup label {
   font-weight: 600;
-  color: #333;
+  color: var(--text);
   font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+  display: block;
 }
 
 .formGroup input,
 .formGroup select {
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 1rem;
+  padding: 0.75rem 1rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  transition: border-color 0.2s;
 }
 
 .formGroup input:focus,
 .formGroup select:focus {
   outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+  border-color: var(--accent);
+}
+
+.formGroup input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.6;
 }
 
 .formGroup small {
-  color: #666;
+  color: var(--text-muted);
   font-size: 0.8rem;
+  margin-top: 0.25rem;
 }
 
 button {
-  padding: 0.75rem 1.5rem;
-  background: #007bff;
+  padding: 0.75rem 1rem;
+  background: var(--accent);
   color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 1rem;
-  cursor: pointer;
+  border-radius: var(--radius);
+  font-weight: 600;
   margin-top: 1rem;
+  transition: background 0.2s;
 }
 
 button:hover:not(:disabled) {
-  background: #0056b3;
+  background: var(--accent-hover);
 }
 
 button:disabled {
-  background: #ccc;
+  opacity: 0.7;
   cursor: not-allowed;
 }
 
 .error {
-  color: #dc3545;
-  background: #f8d7da;
-  padding: 0.75rem;
-  border-radius: 6px;
-  border: 1px solid #f5c6cb;
+  color: var(--critical);
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  font-weight: 500;
 }
 
 .success {
-  color: #155724;
-  background: #d4edda;
-  padding: 0.75rem;
-  border-radius: 6px;
-  border: 1px solid #c3e6cb;
+  color: var(--low);
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  font-weight: 500;
 }
 
 .recent {
   margin-top: 2rem;
-  padding-top: 1rem;
-  border-top: 1px solid #eee;
+  padding: 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
 }
 
 .recent h3 {
   margin-bottom: 1rem;
-  color: #333;
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 .recent ul {
   list-style: none;
   padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
 .recent li {
-  padding: 0.5rem;
-  background: #f8f9fa;
-  margin-bottom: 0.5rem;
-  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
   font-size: 0.9rem;
+  color: var(--text);
+  transition: border-color 0.2s;
+}
+
+.recent li:hover {
+  border-color: var(--accent);
 }
 
 .expires {
-  color: #666;
+  color: var(--text-muted);
   font-size: 0.8rem;
+  margin-left: auto;
+  white-space: nowrap;
 }
