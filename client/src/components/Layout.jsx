@@ -14,7 +14,12 @@ export default function Layout() {
   return (
     <div className={styles.layout}>
       <header className={styles.header}>
-        <h1>Complaint Management</h1>
+        <div className={styles.headerLeft}>
+          <h1>Complaint Management</h1>
+          {user?.societyId && (
+            <span className={styles.societyId}>Society ID: {user.societyId.slice(0, 8)}...</span>
+          )}
+        </div>
         <div className={styles.user}>
           <span>{user?.name} ({user?.role})</span>
           <button onClick={handleLogout} className={styles.logout}>Logout</button>
@@ -22,9 +27,12 @@ export default function Layout() {
       </header>
       <nav className={styles.nav}>
         <NavLink to="/" end className={({ isActive }) => isActive ? styles.active : ''}>Dashboard</NavLink>
-        <NavLink to="/complaints" className={({ isActive }) => isActive ? styles.active : ''}>Complaints</NavLink>
+        <NavLink to="/complaints" end className={({ isActive }) => isActive ? styles.active : ''}>Complaints</NavLink>
         {['resident', 'admin', 'committee', 'security'].includes(user?.role) && (
           <NavLink to="/complaints/new" className={({ isActive }) => isActive ? styles.active : ''}>New Complaint</NavLink>
+        )}
+        {['admin', 'committee'].includes(user?.role) && (
+          <NavLink to="/invite/members" className={({ isActive }) => isActive ? styles.active : ''}>Invite Members</NavLink>
         )}
       </nav>
       <main className={styles.main}>

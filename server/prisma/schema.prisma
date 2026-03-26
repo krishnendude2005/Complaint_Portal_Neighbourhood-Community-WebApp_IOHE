@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -23,16 +23,22 @@ model User {
   complaints    Complaint[] @relation("Reporter")
   assignedTo    Complaint[] @relation("AssignedStaff")
   updates       ComplaintUpdate[]
+  sentInvitations Invitation[] @relation("InvitationInviter")
+  acceptedInvitations Invitation[] @relation("InvitationAcceptedBy")
 }
 
 model Society {
-  id        String    @id @default(uuid())
-  name      String
-  address   String?
-  createdAt DateTime  @default(now())
+  id          String    @id @default(uuid())
+  name        String
+  address     String?
+  status      String    @default("active") // active, suspended
+  settings    Json?     // JSON for custom settings like notifications, working hours, etc.
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt @default(now())
 
-  users     User[]
-  complaints Complaint[]
+  users       User[]
+  complaints  Complaint[]
+  invitations Invitation[]
 }
 
 model Complaint {
@@ -77,4 +83,27 @@ model ComplaintUpdate {
 
   complaint   Complaint @relation(fields: [complaintId], references: [id], onDelete: Cascade)
   user        User      @relation(fields: [updatedBy], references: [id])
+}
+
+model Invitation {
+  id           String   @id @default(uuid())
+  token        String   @unique
+  email        String
+  role         String   // resident, staff, committee, security
+  flatNumber   String?
+  societyId    String
+  invitedBy    String
+  expiresAt    DateTime
+  accepted     Boolean  @default(false)
+  acceptedAt   DateTime?
+  createdAt    DateTime @default(now())
+
+  society      Society  @relation(fields: [societyId], references: [id])
+  inviter      User     @relation("InvitationInviter", fields: [invitedBy], references: [id])
+  acceptedBy   User?    @relation("InvitationAcceptedBy", fields: [acceptedByUserId], references: [id])
+  acceptedByUserId String?
+
+  @@index([email])
+  @@index([token])
+  @@index([societyId])
 }

@@ -32,6 +32,7 @@ export default function Login() {
       <div className={styles.card}>
         <h1>Complaint Management</h1>
         <p className={styles.subtitle}>Neighborhood Community App</p>
+
         <form onSubmit={handleSubmit} className={styles.form}>
           <input
             type="email"
@@ -54,6 +55,16 @@ export default function Login() {
             {loading ? 'Signing in...' : 'Sign In'}
           </button>
         </form>
+
+        <div className={styles.links}>
+          <p>
+            New society? <a href="/register/society">Register Your Society</a>
+          </p>
+          <p>
+            Have an invitation? <a href="/invite/accept">Accept Invitation</a>
+          </p>
+        </div>
+
         <p className={styles.hint}>Demo: admin@example.com / resident@example.com / staff@example.com (password: password123)</p>
       </div>
     </div>

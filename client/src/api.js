@@ -70,6 +70,25 @@ export const users = {
   getStaff: () => request('/users/staff')
 };
 
+export const societies = {
+  register: (data) => request('/societies/register', {
+    method: 'POST',
+    body: JSON.stringify(data)
+  }),
+  createInvitation: (societyId, data) => request(`/societies/${societyId}/invitations`, {
+    method: 'POST',
+    body: JSON.stringify(data)
+  })
+};
+
+export const invitations = {
+  accept: (token) => request(`/societies/invitations/accept/${token}`),
+  acceptRegister: (token, data) => request(`/societies/invitations/accept/${token}/register`, {
+    method: 'POST',
+    body: JSON.stringify(data)
+  })
+};
+
 export const CATEGORIES = {
   plumbing: { subcategories: ['Leakage', 'Blocked Drain', 'No Water Supply', 'Low Pressure'] },
   electrical: { subcategories: ['Power Outage', 'Switch/Socket Issue', 'Light Failure', 'Meter Problem'] },

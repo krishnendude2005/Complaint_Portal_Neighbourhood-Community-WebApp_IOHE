@@ -4,6 +4,7 @@ import cors from 'cors';
 import authRoutes from './routes/auth.js';
 import complaintRoutes from './routes/complaints.js';
 import userRoutes from './routes/users.js';
+import societyRoutes from './routes/societies.js';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -19,6 +20,7 @@ app.use(express.json({ limit: '10mb' }));
 app.use('/api/auth', authRoutes);
 app.use('/api/complaints', complaintRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/societies', societyRoutes);
 
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
 
