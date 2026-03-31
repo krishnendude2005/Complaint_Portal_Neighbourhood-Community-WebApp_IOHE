@@ -1,119 +1,153 @@
-# Complaint Management System
+# 🏠 Community & Neighbourhood Complaint Portal
 
-A neighborhood community app for managing and resolving complaints in residential societies. Users can file issues, track their status, and provide feedback, while administrators and maintenance staff manage the resolution process.
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
+[![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)](https://www.prisma.io/)
+[![MySQL](https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 
-## Features
+A high-fidelity, full-stack community management application designed to streamline complaint resolution in residential societies. This portal provides a transparent, efficient, and role-based ecosystem for residents, staff, and administrators.
 
--   **Role-Based Access Control**:
-    -   **Residents**: Can file new complaints, view their complaint history, track status updates, add comments, and rate the resolution.
-    -   **Admins**: Have a complete overview of all complaints, can assign complaints to staff, change priority levels, and manage the system.
-    -   **Staff**: Can view complaints assigned to them, update the status (e.g., 'In Progress', 'Resolved'), add comments, and attach photos of the completed work.
--   **Complaint Lifecycle**: Full tracking from `Open` → `Assigned` → `In Progress` → `Resolved` → `Closed`.
--   **Categorization & Prioritization**: Complaints are organized by categories (Plumbing, Electrical, etc.) and assigned a priority (Critical, High, Medium, Low) for efficient handling.
--   **Interactive Dashboard**: Provides a quick overview of complaint statistics, including total, critical, open, and in-progress issues.
--   **Detailed Complaint View**: Each complaint has a dedicated page with its full history, description, photos, comments, and status updates.
+---
 
-## Tech Stack
+## 📑 Table of Contents
+- [✨ Key Features](#-key-features)
+- [🛠 Tech Stack](#-tech-stack)
+- [📦 Project Structure](#-project-structure)
+- [🚀 Getting Started](#-getting-started)
+- [🔑 Environment Configuration](#-environment-configuration)
+- [🛠 API Reference](#-api-reference)
+- [🤝 Contributing](#-contributing)
 
--   **Backend**: Node.js, Express.js
--   **Database**: SQLite with Prisma ORM
--   **Frontend**: React (with Vite)
--   **Authentication**: JSON Web Tokens (JWT)
+---
 
-## Getting Started
+## ✨ Key Features
 
-Follow these instructions to set up and run the project locally.
+### 👤 Role-Based Portals
+The system implements a sophisticated **Role-Based Access Control (RBAC)** system with dedicated views for:
+- **Residents**: Seamlessly file complaints, attach photos, track real-time status updates, and provide feedback/ratings after resolution.
+- **Admin/Committee**: Full oversight of society operations, staff assignment, priority management, and statistical dashboards.
+- **Maintenance Staff**: Dedicated task lists, status update controls (In Progress, Resolved), and internal communication tools.
+- **Security**: Focused view for monitoring safety-related incidents and visitor/flat correlations.
 
-### Prerequisites
+### 📋 Sophisticated Complaint Lifecycle
+- **Full Transparency**: Every action is logged in a `ComplaintUpdate` history.
+- **Custom Categorization**: Organizes issues into Plumbing, Electrical, Security, and more.
+- **Priority Matrix**: Dynamic prioritization (Critical, High, Medium, Low) ensuring urgent tasks are handled first.
 
--   Node.js (v16 or later)
--   npm
+### 💌 Engagement & Onboarding
+- **Invitation System**: Secure invitation system for onboarding new residents and staff via email tokens.
+- **Real-time Notifications**: (Email-based) status update notifications via Nodemailer integration.
 
-### 1. Clone the Repository
+---
 
+## 🛠 Tech Stack
+
+| Layer | Technology |
+|---|---|
+| **Frontend** | React 18, Vite, Tailwind CSS, Lucide Icons, React Router 6 |
+| **Backend** | Node.js (v18+), Express.js |
+| **ORM** | Prisma |
+| **Database** | MySQL |
+| **Auth** | JSON Web Tokens (JWT) & Bcrypt password hashing |
+| **Utilities** | Nodemailer (Email), UUID, PostCSS |
+
+---
+
+## 📦 Project Structure
+
+```bash
+├── client/                 # Frontend (React + Vite)
+│   ├── src/
+│   │   ├── components/     # UI Components (Shadcn-style)
+│   │   ├── pages/          # Full page views
+│   │   └── context/        # Global state management
+├── server/                 # Backend (Express)
+│   ├── prisma/             # Database Schema & Migrations
+│   ├── routes/             # API Endpoints
+│   ├── middleware/         # Auth & Validation
+│   └── utils/              # Helper functions (Email, etc.)
+└── package.json            # Project-wide metadata
+```
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone & Install
 ```bash
 git clone https://github.com/krishnendude2005/Complaint_Portal_Neighbourhood-Community-WebApp_IOHE.git
 cd Complaint_Portal_Neighbourhood-Community-WebApp_IOHE
+
+# Install Server dependencies
+cd server && npm install
+
+# Install Client dependencies
+cd ../client && npm install
 ```
 
-### 2. Install Dependencies
-
-Install dependencies for both the server and the client.
-
-```bash
-# Install server dependencies
-cd server
-npm install
-
-# Install client dependencies
-cd ../client
-npm install
-```
-
-### 3. Set up the Database
-
-From the `server` directory, run the following Prisma commands to initialize and seed the SQLite database.
+### 2. Database Setup (Prisma + MySQL)
+Ensure you have a **MySQL** instance running and update your `.env` connection string.
 
 ```bash
-# Navigate to the server directory if you are not already there
 cd ../server
-
-# Generate Prisma Client
 npx prisma generate
-
-# Create the database schema
 npx prisma db push
-
-# Seed the database with demo data
 npx prisma db seed
 ```
 
-### 4. Run the Application
-
-You need to run the backend server and the frontend client in separate terminals.
-
-**Terminal 1: Start the Backend Server**
-
+### 3. Start Development
+**Terminal 1 (Backend):**
 ```bash
-# From the /server directory
-npm run dev
+cd server && npm run dev
 ```
 
-The server will be running at `http://localhost:3001`.
-
-**Terminal 2: Start the Frontend Client**
-
+**Terminal 2 (Frontend):**
 ```bash
-# From the /client directory
-npm run dev
+cd client && npm run dev
 ```
 
-The frontend application will be available at `http://localhost:5173`.
+---
 
-### Demo Accounts
+## 🔑 Environment Configuration
 
-You can use the following pre-seeded accounts to test the application. The password for all accounts is `password123`.
+Create a `.env` file in the `/server` directory:
 
-| Email                | Role            |
-| -------------------- | --------------- |
-| `admin@example.com`    | Admin           |
-| `resident@example.com` | Resident        |
-| `staff@example.com`    | Maintenance Staff |
+```env
+DATABASE_URL="mysql://USER:PASSWORD@HOST:3306/DATABASE_NAME"
+JWT_SECRET="your-secure-secret-key"
+PORT=3002
+SMTP_USER="name@gmail.com"
+SMTP_PASS="xxxx-xxxx-xxxx-xxxx"
+FRONTEND_URL="http://localhost:5173"
+```
+*Note: Refer to `server/.env.example` for details.*
 
-## API Endpoints
+---
 
-The following are the main API endpoints available.
+## 🔐 Demo Accounts
+*All accounts use password: `password123`*
 
--   `POST /api/auth/login` - User login
--   `POST /api/auth/register` - User registration
--   `GET /api/complaints` - Get a list of complaints (filtered by user role)
--   `POST /api/complaints` - Create a new complaint
--   `GET /api/complaints/:id` - Get details of a specific complaint
--   `PATCH /api/complaints/:id/assign` - Assign a complaint to a staff member (Admin)
--   `PATCH /api/complaints/:id/status` - Update the status of a complaint
--   `PATCH /api/complaints/:id/priority` - Change the priority of a complaint (Admin)
--   `PATCH /api/complaints/:id/resolve` - Mark a complaint as resolved (Staff/Admin)
--   `POST /api/complaints/:id/rate` - Rate a resolved complaint (Resident)
--   `POST /api/complaints/:id/comments` - Add a comment to a complaint
--   `DELETE /api/complaints/:id` - Delete a complaint (Admin)
--   `GET /api/users/staff` - Get a list of all staff members (Admin)
+| Email | Role |
+|---|---|
+| `admin@example.com` | Administrator |
+| `resident@example.com` | Resident |
+| `staff@example.com` | Maintenance Staff |
+
+---
+
+## 🤝 Contributing
+Contributions are welcome! Please follow these steps:
+1. Fork the Project.
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`).
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`).
+4. Push to the Branch (`git push origin feature/AmazingFeature`).
+5. Open a Pull Request.
+
+---
+
+## 📜 License
+Distributed under the MIT License. See `LICENSE` for more information.
+
+---
+<p align="center">Made with ❤️ for Community Betterment</p>
