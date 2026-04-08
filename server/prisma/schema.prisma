@@ -50,17 +50,17 @@ model Complaint {
   subcategory String?
   priority    String    // critical, high, medium, low
   title       String
-  description String
+  description String    @db.LongText
   location    String?
-  images      String?   // JSON array of URLs
+  images      String?   @db.LongText // JSON array of URLs
   status      String    // open, assigned, in_progress, waiting_for_parts, waiting_for_approval, resolved, closed, reopened
   assignedTo  String?
   assignedAt  DateTime?
   resolvedAt  DateTime?
   closedAt    DateTime?
   rating      Int?
-  feedback    String?
-  internalNote String?
+  feedback    String?   @db.LongText
+  internalNote String? @db.LongText
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
@@ -75,8 +75,8 @@ model ComplaintUpdate {
   complaintId String
   updatedBy   String
   updateType  String   // status_change, comment, assignment, photo
-  content     String?
-  photos      String?  // JSON array
+  content     String?  @db.LongText
+  photos      String?  @db.LongText // JSON array
   oldStatus   String?
   newStatus   String?
   createdAt   DateTime @default(now())
